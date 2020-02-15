@@ -119,7 +119,7 @@ public class BlockChain {
     public static void main(String[] args) throws SQLException 
     {
         Koneksi con;
-        String nama="Nama Siswa"; //nama BlockChain
+        String nama="NamaSiswa"; //nama BlockChain
         String data="Andi"; //Data Block
         
         
