@@ -135,6 +135,7 @@ public class BlockChain {
 
         boolean te=cekBlockchain(nama); //validasi block chain
         System.out.println(te);  
+        //tes
     }
     
 }
