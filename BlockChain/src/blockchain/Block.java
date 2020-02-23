@@ -11,14 +11,16 @@ public class Block {
     private String PrevHash;
     private String CurrHash;
     private String TimeStamp;
+    private int Nonce;
 
-    public Block(int Index, String TimeStamp, String Data, String PrevHash, String CurrHash) 
+    public Block(int Index, String TimeStamp, String Data, String PrevHash, String CurrHash, int Nonce) 
     {
         setIndex(Index);
         setTimeStamp(TimeStamp);
         setData(Data);
         setPrevHash(PrevHash);
         setCurrHash(CurrHash);
+        setNonce(Nonce);
     }
     
     public Block() 
@@ -94,6 +96,20 @@ public class Block {
      */
     public void setTimeStamp(String TimeStamp) {
         this.TimeStamp = TimeStamp;
+    }
+
+    /**
+     * @return the Nonce
+     */
+    public int getNonce() {
+        return Nonce;
+    }
+
+    /**
+     * @param Nonce the Nonce to set
+     */
+    public void setNonce(int Nonce) {
+        this.Nonce = Nonce;
     }
 
 }
