@@ -21,13 +21,34 @@ public class BlockChain {
     {
         LocalDate tgl=java.time.LocalDate.now();
         String time = tgl.toString();
+        int nonce=0,tempNonce;
         Block bl=new Block();
+        String temp,temp1;
+        Random rand = new Random();
         
         bl.setIndex(no+1);
         bl.setTimeStamp(time);
         bl.setData(data);
         bl.setPrevHash(hash[1]);
-        bl.setCurrHash(getMd5(Integer.toString(no+1)+time+data+hash[1]));
+        bl.setNonce(nonce);
+        bl.setCurrHash(getMd5(Integer.toString(no+1)+time+data+hash[1]+nonce));
+        temp=bl.getCurrHash();
+        temp1=temp.substring(0, 5);
+        
+        while (!"11111".equals(temp1)) //Proses MINING Syarat berhenti ketika 5 karakter pertama currHash adalah 11111
+        {
+            tempNonce=nonce;
+            temp=getMd5(Integer.toString(no+1)+time+data+hash[1]+nonce);
+            temp1=temp.substring(0, 5);
+            System.out.println("mine");
+            if (!"11111".equals(temp1)){
+                nonce=rand.nextInt(2147483647);
+            } 
+        }
+
+        bl.setNonce(nonce);
+        bl.setCurrHash(getMd5(Integer.toString(no+1)+time+data+hash[1]+nonce));
+        bl.setCurrHash(getMd5(Integer.toString(no+1)+time+data+hash[1]+nonce));
         return bl;
     }
     
@@ -52,7 +73,7 @@ public class BlockChain {
             if (i<x)
             {
                 lok=listDataBlockchain.get(i);
-                temp=getMd5(Integer.toString(lok.getIndex())+lok.getTimeStamp()+lok.getData()+lok.getPrevHash());
+                temp=getMd5(Integer.toString(lok.getIndex())+lok.getTimeStamp()+lok.getData()+lok.getPrevHash()+lok.getNonce());
                 lok=listDataBlockchain.get(i+1);
                 temp1=lok.getPrevHash();
                 if(temp.equals(temp1))
@@ -93,7 +114,7 @@ public class BlockChain {
         try { 
   
             // Static getInstance method is called with hashing MD5 
-            MessageDigest md = MessageDigest.getInstance("MD5"); 
+            MessageDigest md = MessageDigest.getInstance("SHA-256"); 
   
             // digest() method is called to calculate message digest 
             //  of an input digest() return array of byte 
@@ -116,11 +137,20 @@ public class BlockChain {
         } 
         
     } 
+    
+    static String startMining(String Nonce)
+    {
+        String hasil="";
+        
+        
+        return hasil;
+    }
+    
     public static void main(String[] args) throws SQLException 
     {
         Koneksi con;
-        String nama="NamaSiswa"; //nama BlockChain
-        String data="Andi"; //Data Block
+        String nama="DaftarNama"; //nama BlockChain
+        String data="Rangga"; //Data Block
         
         
         con = new Koneksi();
@@ -135,7 +165,6 @@ public class BlockChain {
 
         boolean te=cekBlockchain(nama); //validasi block chain
         System.out.println(te);  
-        //tes
     }
     
 }
