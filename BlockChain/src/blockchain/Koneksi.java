@@ -30,10 +30,10 @@ public class Koneksi {
     public void createBlockchain(String nama) 
     {
         try {
-            String query = "create table "+nama+" (no INT NOT NULL  , time DATE NOT NULL, data VARCHAR(255), prevhash VARCHAR(255), currhash VARCHAR(255), PRIMARY KEY (no));";
+            String query = "create table "+nama+" (no INT NOT NULL  , time DATE NOT NULL, data VARCHAR(255), prevhash VARCHAR(255), currhash VARCHAR(255),nonce VARCHAR(255), PRIMARY KEY (no));";
             Statement s = con.createStatement();
             s.executeUpdate(query);
-            query ="insert into "+nama+" (no, time, data, prevhash, currhash) VALUES ('1', '"+time+"', 'Genesis', NULL, NULL)";
+            query ="insert into "+nama+" (no, time, data, prevhash, currhash, nonce) VALUES ('1', '"+time+"', 'Genesis', NULL, NULL, '0')";
             s = con.createStatement();
             s.executeUpdate(query);
         } catch (SQLException ex) {
@@ -68,7 +68,7 @@ public class Koneksi {
     public static void insertData(String nama,Block bl) 
     {
         try {
-            String query = "insert into "+nama+" (no, time, data, prevhash, currhash) VALUES ("+bl.getIndex()+",'"+bl.getTimeStamp()+"', '"+bl.getData()+"', '"+bl.getPrevHash()+"', '"+bl.getCurrHash()+"')";
+            String query = "insert into "+nama+" (no, time, data, prevhash, currhash, nonce) VALUES ("+bl.getIndex()+",'"+bl.getTimeStamp()+"', '"+bl.getData()+"', '"+bl.getPrevHash()+"', '"+bl.getCurrHash()+"', '"+bl.getNonce()+"')";
             s = con.createStatement();
             s.executeUpdate(query);
         } catch (SQLException ex) {
@@ -93,7 +93,8 @@ public class Koneksi {
                 String data =rs.getString(3);
                 String prevHash =rs.getString(4);
                 String currHash =rs.getString(5);
-                i = new Block(no, time, data, prevHash, currHash);
+                int nonce =Integer.parseInt(rs.getString(6));
+                i = new Block(no, time, data, prevHash, currHash,nonce);
                 listDataBlockchain.add(i);
             }
             return listDataBlockchain;
