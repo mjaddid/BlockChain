@@ -2,6 +2,7 @@ package blockchain;
 import java.util.*;
 import java.sql.*;
 import java.math.*;
+import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -118,17 +119,28 @@ public class BlockChain {
   
             // digest() method is called to calculate message digest 
             //  of an input digest() return array of byte 
-            byte[] messageDigest = md.digest(input.getBytes()); 
+            byte[] messageDigest = md.digest(input.getBytes(StandardCharsets.UTF_8)); 
   
             // Convert byte array into signum representation 
             BigInteger no = new BigInteger(1, messageDigest); 
   
-            // Convert message digest into hex value 
-            String hashtext = no.toString(16); 
-            while (hashtext.length() < 32) { 
-                hashtext = "0" + hashtext; 
-            } 
-            return hashtext; 
+//            // Convert message digest into hex value 
+//            String hashtext = no.toString(16); 
+//            while (hashtext.length() < 32) { 
+//                hashtext = "0" + hashtext; 
+//            } 
+            
+            // Convert message digest into hex value  
+            StringBuilder hexString = new StringBuilder(no.toString(16));  
+
+            // Pad with leading zeros 
+            while (hexString.length() < 32)  
+            {  
+                hexString.insert(0, '0');  
+            }  
+
+            return hexString.toString();
+//            return hashtext; 
         }  
   
         // For specifying wrong message digest algorithms 
@@ -138,24 +150,15 @@ public class BlockChain {
         
     } 
     
-    static String startMining(String Nonce)
-    {
-        String hasil="";
-        
-        
-        return hasil;
-    }
-    
     public static void main(String[] args) throws SQLException 
     {
         Koneksi con;
         String nama="DaftarNama"; //nama BlockChain
-        String data="Rangga"; //Data Block
-        
+        String data="Jaddid"; //Data Block
         
         con = new Koneksi();
         con.connect();
-        con.createBlockchain(nama); //create table dalam database atau suatu block chain
+//        con.createBlockchain(nama); //create table dalam database atau suatu block chain
         con.cekhash(nama);      //untuk mendapatkan currHash dan prevHash block yg baru saja diinput
         Block blok=new Block(); //membuat obj block
 
